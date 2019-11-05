@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Interim Label</title>
+    <link href="/static/styles/serialRequest.css" type="text/css" rel="stylesheet" />
+    <script defer src="/static/javascript/serialRequest.js" type="text/javascript"></script>
+</head>
+
+<body>
+<img src="/static/images/lgo.jpg" width="289" height="61" alt="logo">
+<hr>
+    <div id="pageDiv">
+        <div class="left">
+            {{template "nav" .}}
+        </div>
+        
+        <div id="mainDiv" class="middle">
+            <h2 class="sr-header">Interim Label</h2>
+            <div id="serial-request" class="serial-request-div">
+                <div>
+                    <div class="cell-id-input">
+                        <label class="cell-id-label">Cell ID: </label>
+                        <input type="text" id="cell-id">
+                    </div>
+                    <label id='cell-id-error' class='error cell-error'></label>
+                </div>
+                <div>
+                    <div class="ipAddress-input">
+                        <label class="ipAddress-label">Printer IP Address : </label>
+                        <input type="text" id="ipAddress">
+                    </div>
+                    <label id='ipAddress-error' class='error ip-error'></label>
+                </div>
+                <button id="request-serial-number-button" class="request-button-class">Request Serial Number</button>
+            </div>
+            <h3 id="current-serial-number"></h3>
+        </div>
+        <div class="right">
+            <button id="view-button">View Print Code</button>
+            <br>
+            <textarea class="hidden print-text-class" name="printTextArea" id="print-text-area" cols="40" rows="10"></textarea>
+            <br>
+            <button class="hidden" id="save-button">Save Changes</button>
+            <button class="hidden" id="test-button">Print Test</button>
+        </div>
+    </div>
+
+</body>
+
+</html>

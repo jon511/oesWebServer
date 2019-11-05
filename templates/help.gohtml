@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="/static/styles/help.css" type="text/css" rel="stylesheet" />
+    <title>Help</title>
+</head>
+
+<body>
+    <div class="top-image">
+        <img src="/static/images/lgo.jpg" width="289" height="61" alt="logo">
+        <hr>
+    </div>
+    
+    <div id="pageDiv">
+
+        <div id="sidebar" class="left">
+            <div class="nav-1">
+                {{template "nav" .}}
+            </div>
+            <div class="nav-2">
+                <a href="#logix-anchor">ControlLogix / CompactLogix</a>
+                <br>
+                <a href="#slc-anchor">SLC</a>
+                <br>
+                <a href="#micro-anchor">MicroLogix</a>
+                <br>
+                <a href="#plc-anchor">PLC 5</a>
+                <br>
+                <a href="#data-table">ManIT Communication Template</a>
+                <br>
+            </div>
+        </div>
+
+        <div id="main-div" class="middle">
+            <a id="logix-anchor" class="anchor"></a>
+            <div id="logix-div">
+                <h2>ControlLogix / CompactLogix</h2>
+                <div id="logix-prod-trransaction">
+                    <h3>Logix MSG Communication Setup</h3>
+                    <img src="/static/images/logix-p-02.png" alt="Logix message example">
+                    <p><strong>Note </strong>The Communication tab will be set the same for all transaction types. 
+                    The CIP path of ,1,0 should always be appended to the path. Ensure the Connected checkbox is 
+                    not checked.</p>
+                    <br>
+                    <h3>Production Transaction MSG Configuration</h3>
+                    <img src="/static/images/logix-p-01.png" alt="Logix message example">
+                    <p><strong>Note</strong> Standard production uses arrays N197[0], N207[0] or N217[0]. 
+                        Standard production transaction will return data as follows:</p>
+                    <ul>
+                        <li>N197[0] returns data to N198[0]</li>
+                        <li>N207[0] returns data to N208[0]</li>
+                        <li>N217[0] returns data to N218[0]</li>
+                    </ul>
+                    <p>In some cases where different return locations are needed see
+                        <a href="#">None Standard Production Transactions</a></p>
+                </div>
+                <div id="logix-setup-transaction">
+                    <h3>Setup Transaction MSG Configuration</h3>
+                    <img src="/static/images/logix-s-01.png" alt="Logix setup message example">
+                    
+                    <p>For setup transactions, data will always be returned to N238[0].</p>
+                    <p>Data for the PLC Model Download table will be returned to N241[0] - N241[33].</p>
+                </div>
+                <div id="logix-login-transaction">
+                    <h3>Login Transaction MSG Configuration</h3>
+                    <img src="/static/images/logix-l-01.png" alt="Logix login message example">
+                    <p>For login transactions, data will always be returned to N228[0].</p>
+                </div>
+                <div id="logix-serial-transaction">
+                    <h3>Serial Number Request Transaction MSG Configuration</h3>
+                    <img src="/static/images/logix-se-01.png" alt="Logix serial message example">
+                    <p>For Serial Number Request transactions, data will always be returned to N247[0].</p>
+                </div>
+            </div>
+
+            <a id="slc-anchor" class="anchor"></a>
+            <div id="slc-div">
+                <h2>SLC</h2>
+                <div id="slc-prod-trransaction">
+                    <h3>Production Transaction MSG Configuration</h3>
+                    <img src="/static/images/slc-p-02.png" alt="SLC message example">
+                    <p><strong>Note</strong> Standard production Data Tables uses N197:0, N207:0 or N217:0.
+                        Standard production transaction will return data as follows:</p>
+                    <ul>
+                        <li>N197:0 returns data to N198:0</li>
+                        <li>N207:0 returns data to N208:0</li>
+                        <li>N217:0 returns data to N218:0</li>
+                    </ul>
+                    <p>In some cases where different return locations are needed see
+                        <a href="#">None Standard Production Transactions</a></p>
+                </div>
+                <div id="slc-setup-transaction">
+                    <h3>Setup Transaction MSG Configuration</h3>
+                    <img src="/static/images/slc-s-01.png" alt="SLC setup message example">
+                    <p>For Setup transactions, data will always be returned to N238:0.</p>
+                    <p>Data for the PLC Model Download table will be returned to N241:0 - N241:33.</p>
+                </div>
+                <div id="slc-login-transaction">
+                    <h3>Login Transaction MSG Configuration</h3>
+                    <img src="/static/images/slc-l-01.png" alt="SLC login message example">
+                    <p>For Login transactions, data will always be returned to N228:0.</p>
+                </div>
+                <div id="slc-serial-transaction">
+                    <h3>Serial Number Request Transaction MSG Configuration</h3>
+                    <img src="/static/images/slc-se-01.png" alt="SLC serial message example">
+                    <p>For Serial Number Request transactions, data will always be returned to N247:0.</p>
+                </div>
+            </div>
+
+            <a id="micro-anchor" class="anchor"></a>
+            <div id="micro-div">
+                <h2>Micrologix 1400</h2>
+                <div id="micro-prod-trransaction">
+                    <h3>MicroLogix MSG MutliHop Tab Configuration</h3>
+                    <img src="/static/images/micro-p-01.PNG" alt="MicroLogix MultiHop setup example">
+                    <p><strong>Note </strong>The MultiHop tab will be set the same for all transaction types.</p>
+                    <h3>Production Transaction MSG Configuration</h3>
+                    <img src="/static/images/micro-p-02.png" alt="MicroLogix message example">
+                    <p><strong>Note</strong> Standard production Data Tables uses N197:0, N207:0 or N217:0.
+                        Standard production transaction will return data as follows:</p>
+                    <ul>
+                        <li>N197:0 returns data to N198:0</li>
+                        <li>N207:0 returns data to N208:0</li>
+                        <li>N217:0 returns data to N218:0</li>
+                    </ul>
+                    <p>In some cases where different return locations are needed see
+                        <a href="#">None Standard Production Transactions</a></p>
+                </div>
+                <div id="micro-setup-transaction">
+                    <h3>Setup Transaction MSG Configuration</h3>
+                    <img src="/static/images/micro-s-01.png" alt="SLC setup message example">
+                    <p>For Setup transactions, data will always be returned to N238:0.</p>
+                    <p>Data for the PLC Model Download table will be returned to N241:0 - N241:33.</p>
+                </div>
+                <div id="micro-login-transaction">
+                    <h3>Login Transaction MSG Configuration</h3>
+                    <img src="/static/images/micro-l-01.png" alt="SLC login message example">
+                    <p>For Login transactions, data will always be returned to N228:0.</p>
+                </div>
+                <div id="micro-serial-transaction">
+                    <h3>Serial Number Request Transaction MSG Configuration</h3>
+                    <img src="/static/images/micro-se-01.png" alt="SLC serial message example">
+                    <p>For Serial Number Request transactions, data will always be returned to N247:0.</p>
+                </div>
+            </div>
+
+            <a id="plc-anchor" class="anchor"></a>
+            <div id="plc-div">
+                <h2>PLC 5</h2>
+                <div id="plc-prod-trransaction">
+                    <h3>Production Transaction MSG Configuration</h3>
+                    <img src="/static/images/plc-p-02.png" alt="PLC 5 message example">
+                    <p><strong>Note</strong> Standard production Data Tables uses N197:0, N207:0 or N217:0.
+                        Standard production transaction will return data as follows:</p>
+                    <ul>
+                        <li>N197:0 returns data to N198:0</li>
+                        <li>N207:0 returns data to N208:0</li>
+                        <li>N217:0 returns data to N218:0</li>
+                    </ul>
+                    <p>In some cases where different return locations are needed see
+                        <a href="#">None Standard Production Transactions</a></p>
+                </div>
+                <div id="plc-setup-transaction">
+                    <h3>Setup Transaction MSG Configuration</h3>
+                    <img src="/static/images/plc-s-01.png" alt="PLC 5 setup message example">
+                    <p>For Setup transactions, data will always be returned to N238:0.</p>
+                    <p>Data for the PLC Model Download table will be returned to N241:0 - N241:33.</p>
+                </div>
+                <div id="plc-login-transaction">
+                    <h3>Login Transaction MSG Configuration</h3>
+                    <img src="/static/images/plc-l-01.png" alt="PLC 5 login message example">
+                    <p>For Login transactions, data will always be returned to N228:0.</p>
+                </div>
+                <div id="plc-serial-transaction">
+                    <h3>Serial Number Request Transaction MSG Configuration</h3>
+                    <img src="/static/images/plc-se-01.png" alt="PLC 5 serial message example">
+                    <p>For Serial Number Request transactions, data will always be returned to N247:0.</p>
+                </div>
+            </div>
+            
+            {{template "dataTableAssignment" .}}
+
+
+
+        </div>
+
+        <div class="right">
+            
+        </div>
+
+    </div>
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,54 @@
+@import "nav.css";
+
+.anchor {
+    display:block;
+    padding-top:60px;
+    margin-top:-60px;
+ }
+
+.top-image {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    background: white;
+}
+
+.left {
+    grid-area: left;
+}
+.middle{
+    grid-area: middle;
+}
+.right {
+    grid-area: right;
+}
+
+#pageDiv{
+    padding-top: 50px;;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-areas: 
+        "left middle right";
+}
+
+#sidebar{
+    height: 100%;
+  width: 1fr;
+  position: fixed;
+  z-index: 1;
+  top: 75px;
+  /* left: 0; */
+  /* background-color: #111; */
+  overflow-x: hidden;
+  padding-top: 20px;
+  display: grid;
+  grid-gap: 5px;
+  grid-template-columns: 20%  80%;
+}
+
+#data-table-values{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 20% 20% 50%;
+}

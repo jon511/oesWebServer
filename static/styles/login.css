@@ -1,0 +1,78 @@
+@import "nav.css";
+
+#pageDiv{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
+}
+
+#mainDiv {
+    text-align: center;
+}
+
+#mainDiv input[type="text"]{
+    width: 100%;
+}
+
+.cell-id-label {
+    grid-area: cell-id-label;
+    text-align: right;
+}
+
+.cell-id-input {
+    grid-area: cell-id-input;
+}
+
+.cell-error {
+    grid-area: cell-error;
+    text-align: left;
+}
+
+.operator-label{
+    grid-area: operator-label;
+    text-align: right;
+}
+
+.operator-input {
+    grid-area: operator-input;
+}
+
+.operator-error {
+    grid-area: operator-error;
+    text-align: left;
+}
+
+.sub-div {
+    grid-area: sub-div;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.logoff-all-class{
+    width: 100%;
+    grid-area: logoff-all;
+    text-align: center;
+}
+
+/* #logoff-all{
+    width: 90%;
+} */
+
+#logon {
+    width: 49%;
+}
+
+#logoff {
+    width: 49%;
+}
+
+#loginDiv {
+    display: grid;
+    grid-gap: 1%;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-areas: 
+        "cell-id-label cell-id-input cell-error"
+        "operator-label operator-input operator-error"
+        ".... sub-div ...."
+        ".... logoff-all ....";
+}
