@@ -94,7 +94,7 @@ func main() {
 	fmt.Println("Version: " + versionString)
 	fmt.Println("Using OES Server: " + mySettings.IPAddress)
 	fmt.Println("Listening .....")
-	err = http.ListenAndServe(":80", nil)
+	err = http.ListenAndServe(":8080", nil)
 	if err != nil {
 		fmt.Println(err)
 	}
