@@ -1,58 +1,28 @@
 @import "nav.css";
 
 #pageDiv{
-    width: 100%;
     display: grid;
     grid-template-columns: 1fr 3fr 1fr;
 }
 
-/* .left {
-    padding-left: 10px;
-} */
-
-#mainDiv {
-    width: 60%;
-    margin-left: 20%;
-    margin-right: 20%;
-    text-align: center;
+.s-header {
+    grid-area: s-header;
 }
 
-#mainDiv input[type="text"]{
-    width: 100%;
-}
-
-.cell-id-label {
-    grid-area: cell-id-label;
-    text-align: right;
-}
-
-.cell-id-input {
-    grid-area: cell-id-input;
+.cell-id-input  {
+    grid-area: cell-id;
 }
 
 .cell-error {
     grid-area: cell-error;
-    text-align: left;
 }
 
-.model-label {
-    grid-area: model-label;
-    text-align: right;
-}
-
-
-.model-input P{
+.model-input{
     grid-area: model-input;
 }
 
 .model-error {
     grid-area: model-error;
-    text-align: left;
-}
-
-.op-label {
-    grid-area: op-label;
-    text-align: right;
 }
 
 .op-input {
@@ -61,19 +31,72 @@
 
 .op-error{
     grid-area: op-error;
-    text-align: left;
 }
-.submit-container {
-    margin-top: 20px;
-    width: 100%;
-     grid-area: button2;
+
+.submit-class {
+    grid-area: submit-area;
 }
-#submit {
-    grid-area: button;
+
+#setup-status {
+    grid-area: s-status;
+}
+
+.middle {
+    border-radius: 10px;
+    display: grid;
+    grid-template-areas: 
+        "... s-header ..."
+        "... cell-id cell-error"
+        "... op-input op-error"
+        "... model-input model-error"
+        "... submit-area ..."
+        "... s-status s-status";
+}
+
+.middle input{
+    margin: 0;
     width: 50%;
-    
+    height: 20px;
+    border: none;
+    background-color: whitesmoke;
+    font-size: 1.1em;
 }
-.setup-div {
+
+.middle input:focus{
+    outline: none;
+}
+
+.middle label {
+    font-size: 1em;
+}
+
+.middle h1 {
+    text-align: center;
+}
+
+.input-section {
+    background-color: whitesmoke;
+    padding-top: 5px;
+    padding-left: 5px;
+    height: 30px;
+    width: 100%;
+    border: none;
+    border-radius: 10px;
+    margin: 10px auto;
+}
+
+.submit-class {
+    width: 250px;
+    height: 40px;
+    background-color: whitesmoke;
+    border-radius: 10px;
+    font-size: 1em;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+
+/* .setup-div {
     display: grid;
     grid-gap: 1%;
     grid-template-columns: 1fr 1fr 1fr;
@@ -83,17 +106,18 @@
         "model-label model-input model-error"
         ".... .... ...." 
         "button button2 ....";
-}
+} */
 
 .error {
+    padding-top: 20px;
     color: red;
 }
 
-.top-row {
+/* .top-row {
     margin-bottom: 10px;
     text-decoration: underline;
 }
-
+*/
 .components-div {
     margin-top: 30px;
     display: grid;
@@ -109,4 +133,4 @@
 
 #submit-comp{
     width: 25%;
-}
+} 

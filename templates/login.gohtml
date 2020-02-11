@@ -1,0 +1,33 @@
+{{template "header" .}}
+
+    <div id="pageDiv">
+        <div class="left">
+            {{template "nav" .}}
+        </div>
+        <div id="mainDiv" class="middle">
+            <h3 class="l-header">{{.Title}}</h3>
+            <section class="cell-id-main input-section">
+                <label class="cell-id-label" for="cell-id">Cell ID: </label>
+                <input type="text" id="cell-id">
+            </section>
+            <label id='cell-id-error' class='error cell-error'></label>
+            <section class="operator-id-main input-section">
+                <label class="op-id-label" for="operator-id">Operator ID: </label>
+                <input type="text" id="operator-id">
+            </section>
+            <label id='operator-id-error' class='error operator-error'></label>
+            <div class="l-buttons">
+                <button id="logon">Log On</button>
+                <button id="logoff">Log Off</button>
+            </div>
+            <!-- <button id=logoff-all class="logoff-all-class">Log All Off</button> -->
+
+            <h2 id="login-status"></h2>
+            
+        </div>
+        <div class="right">
+
+        </div>
+    </div>
+
+{{template "footer" .}}

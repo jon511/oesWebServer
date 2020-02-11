@@ -1,0 +1,16 @@
+{{define "header"}}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{.Title}}</title>
+    <link href="/static/styles/{{.CSS}}" type="text/css" rel="stylesheet"/>
+    <script defer src="/static/javascript/common.js" type="text/javascript"></script>
+    <script defer src="/static/javascript/{{.Javascript}}" type="text/javascript"></script>
+</head>
+<body>
+    <img id="myImg" src="/static/images/lgo.jpg" width="289" height="61" alt="logo">
+    <hr>
+
+{{end}}

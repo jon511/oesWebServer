@@ -1,0 +1,42 @@
+{{template "header" .}}
+
+<div id="pageDiv">
+        <div class="left">
+            {{template "nav" .}}
+        </div>
+        
+        <div class="middle">
+            <h3 class="fp-header">{{.Title}}</h3>
+                <section class="serial-input-main input-section">
+                    <label class="serial-number-label" for="serial-number">Serial Number: </label>
+                    <input type="text" id="serial-number">
+                </section>
+                <label id='serial-number-error' class='error serial-error'></label>
+                <section class="ip-address-main input-section">
+                    <label class="ip-address-label" for="ip-address">Printer IP Address: </label>
+                    <input type="text" id="ip-address">
+                </section>
+                <label id='ip-address-error' class='error ip-error'></label>
+                <section class="weight-input-main input-section">
+                    <label class="weight-label" for="weight">Weight: </label>
+                    <input type="text" id="weight">
+                </section>
+                <label id='weight-input-error' class='error weight-error'></label>
+                <section class="rev-level-main input-section">
+                    <label class="rev-level-label" for="rev-level">Rev Level: </label>
+                    <input type="text" id="rev-level">
+                </section>
+                <label id='rev-level-error' class='error rev-error'></label>
+
+                <button id="print-button" class="print-button-class">Print</button>
+            </div>
+            
+            
+        <div class="right">
+
+        </div>
+</div>
+
+
+
+{{template "footer" .}}

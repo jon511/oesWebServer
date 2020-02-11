@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
+	"time"
 )
 
 var tmp *template.Template
@@ -48,6 +49,13 @@ type loginData struct {
 
 type serialRequest struct {
 	Serial string
+}
+
+//PageSettings is data to pass to webpages
+type PageSettings struct {
+	Title      string
+	Javascript string
+	CSS        string
 }
 
 var mySettings settings
@@ -91,10 +99,14 @@ func main() {
 
 	http.HandleFunc("/sendToPrinter", handlePrintRequest)
 
+	http.HandleFunc("/finalPrint", handleFinalPrintRequest)
+
+	http.HandleFunc("/finalPrintPost", handleFinalPrintPost)
+
 	fmt.Println("Version: " + versionString)
 	fmt.Println("Using OES Server: " + mySettings.IPAddress)
 	fmt.Println("Listening .....")
-	err = http.ListenAndServe(":8080", nil)
+	err = http.ListenAndServe(":80", nil)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -119,20 +131,23 @@ func handleTest(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleIndex(w http.ResponseWriter, r *http.Request) {
-	tmp.ExecuteTemplate(w, "index.gohtml", nil)
+	pageSetting := PageSettings{Title: "Main Page", Javascript: "index.js", CSS: "style.css"}
+	tmp.ExecuteTemplate(w, "index.gohtml", pageSetting)
 }
 
 func handleHelp(w http.ResponseWriter, r *http.Request) {
-
-	tmp.ExecuteTemplate(w, "help.gohtml", nil)
+	pageSetting := PageSettings{Title: "Help", Javascript: "help.js", CSS: "help.css"}
+	tmp.ExecuteTemplate(w, "help.gohtml", pageSetting)
 }
 
 func setup(w http.ResponseWriter, r *http.Request) {
-	tmp.ExecuteTemplate(w, "setup.gohtml", nil)
+	pageSetting := PageSettings{Title: "Setup", Javascript: "setup.js", CSS: "setup.css"}
+	tmp.ExecuteTemplate(w, "setup.gohtml", pageSetting)
 }
 
 func login(w http.ResponseWriter, r *http.Request) {
-	tmp.ExecuteTemplate(w, "login.gohtml", nil)
+	pageSetting := PageSettings{Title: "Login", Javascript: "login.js", CSS: "login.css"}
+	tmp.ExecuteTemplate(w, "login.gohtml", pageSetting)
 }
 
 func loginRequest(w http.ResponseWriter, r *http.Request) {
@@ -206,7 +221,8 @@ func setupRequest(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleSerialRequest(w http.ResponseWriter, r *http.Request) {
-	tmp.ExecuteTemplate(w, "serialRequest.gohtml", nil)
+	pageSetting := PageSettings{Title: "Interim Label", Javascript: "serialRequest.js", CSS: "serialRequest.css"}
+	tmp.ExecuteTemplate(w, "serialRequest.gohtml", pageSetting)
 }
 
 func handleSerialRequestPost(w http.ResponseWriter, r *http.Request) {
@@ -259,13 +275,56 @@ func handlePrintRequest(w http.ResponseWriter, r *http.Request) {
 		results[key] = element[1]
 	}
 
-	sendToPrinter(results["printCode"], results["ipAddress"])
-
 	status := "{\"status\":\"Good\"}"
+
+	err = sendToPrinter(results["printCode"], results["ipAddress"])
+	if err != nil {
+		status = "{\"status\":\"Error sending to printer\"}"
+	}
+
+	//status := "{\"status\":\"Good\"}"
 
 	w.Header().Set("Content-Type", "application/json")
 	w.Write([]byte(status))
 
+}
+
+func handleFinalPrintRequest(w http.ResponseWriter, r *http.Request) {
+	pageSetting := PageSettings{Title: "Final Label Print", Javascript: "finalPrint.js", CSS: "finalPrint.css"}
+	tmp.ExecuteTemplate(w, "finalLabel.gohtml", pageSetting)
+}
+
+func handleFinalPrintPost(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
+	bodyByte, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		panic(err)
+	}
+
+	bodyString := string(bodyByte)
+	fmt.Println(bodyString)
+
+	retStr := sendSetupTransaction1([]byte(bodyString))
+
+	// resultsString := strings.Split(bodyString, "&")
+	// var results = make(map[string]string)
+	// for _, val := range resultsString {
+	// 	element := strings.Split(val, "=")
+	// 	key := element[0]
+	// 	results[key] = element[1]
+	// }
+
+	// status := "{\"status\":\"Good\"}"
+
+	// err = sendToPrinter(results["printCode"], results["ipAddress"])
+	// if err != nil {
+	// 	status = "{\"status\":\"Error sending to printer\"}"
+	// }
+
+	//status := "{\"status\":\"Good\"}"
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write([]byte(retStr))
 }
 
 func sendSetupTransaction1(sendData []byte) string {
@@ -294,13 +353,14 @@ func sendSetupTransaction1(sendData []byte) string {
 
 }
 
-func sendToPrinter(printCode, ipAddress string) {
-	conn, err := net.Dial("tcp", ipAddress+":9100")
+func sendToPrinter(printCode, ipAddress string) error {
+	conn, err := net.DialTimeout("tcp", ipAddress+":9100", 3*time.Second)
 	if err != nil {
-		fmt.Println(err)
+		return err
 	}
 
 	conn.Write([]byte(printCode))
 
 	conn.Close()
+	return nil
 }

@@ -1,3 +1,4 @@
+const sendRequest = xmlHttpRequest
 
 const handleRequest = () => {
     document.getElementById('current-serial-number').innerHTML = ""
@@ -16,67 +17,44 @@ const handleRequest = () => {
         document.getElementById('ipAddress-error').innerHTML = ""
     }
 
-    sendRequest(`request=${21}&cellId=${cellId}`)
-
+    sendRequest(`request=${21}&cellId=${cellId}`, handleGetSerialReturn, '/serialRequestPost')
+    
     hidePrintCode()
 }
 
-const validateIpAddress = (ipAddress) => {
-    let s = ipAddress.toString()
-    let sArr = s.split('.')
-    if (sArr.length !== 4)
-        return false
+const handleGetSerialReturn = (data) => {
 
-    for (let i = 0; i < sArr.length; i++){
-        const a = parseInt(sArr[i])
-        if (a < 0 || a > 255)
-            return false
-
-        if (isNaN(a)){
-            return false
-        }
-    }
-
-    return true
-}
-
-const sendPrintRequest = (serialNumber) => {
-    document.getElementById('current-serial-number').innerHTML = serialNumber
+    const res = JSON.parse(data)
     
-    let newPrintCode = localStorage.getItem("printCode").replace(/FD_SerialNumber_/g, serialNumber)
+    if (res.Serial[0] === "\u0000"){
+        document.getElementById('current-serial-number').innerHTML = "Error: Serial number did not return or is invalid."
+        return
+    }else{
+        document.getElementById('current-serial-number').innerHTML = res.Serial
+    }
+    
+    
+    let newPrintCode = localStorage.getItem("printCode").replace(/FD_SerialNumber_/g, res.Serial)
     const printerIpAddress = document.getElementById('ipAddress').value
-    sendRequest2(`printCode=${newPrintCode}&ipAddress=${printerIpAddress}`)
 
+    sendRequest(`printCode=${newPrintCode}&ipAddress=${printerIpAddress}`, handlePrintRequestReturn, '/sendToPrinter')
 }
 
-const sendRequest = (str) => {
-    let req = new XMLHttpRequest()
-    req.onreadystatechange = () => {
-        if (req.readyState === XMLHttpRequest.DONE) {
-            const res = JSON.parse(req.responseText)
-            console.log(res)
-            sendPrintRequest(res.Serial)
-        }
+const handlePrintRequestReturn = (data) => {
+    const printStatus = JSON.parse(data)
+    
+    if (printStatus.status === 'Good'){
+        document.getElementById('current-serial-number').innerHTML  += ' : Successfully sent to printer'
+    }else {
+        document.getElementById('current-serial-number').innerHTML  += ' : ' + printStatus.status   
     }
-    req.open('POST', '/serialRequestPost', true)
-    req.send(str)
-}
-
-const sendRequest2 = (str) => {
-    let req = new XMLHttpRequest()
-    req.onreadystatechange = () => {
-        if (req.readyState === XMLHttpRequest.DONE) {
-            const res = JSON.parse(req.responseText)
-            console.log(res)
-        }
-    }
-    req.open('POST', '/sendToPrinter', true)
-    req.send(str)
+    
 }
 
 const showPrintCode = () => {
 
     if (document.getElementById('test-button').classList.contains('hidden')){
+
         document.getElementById('view-button').innerHTML = "Hide Print Code"
         document.getElementById('print-text-area').classList.remove('hidden')
         document.getElementById('save-button').classList.remove('hidden')
@@ -84,15 +62,13 @@ const showPrintCode = () => {
     }else{
         hidePrintCode()
     }
-
-
 }
 
 const hidePrintCode = () => {
     document.getElementById('view-button').innerHTML = "View Print Code"
-        document.getElementById('print-text-area').classList.add('hidden')
-        document.getElementById('save-button').classList.add('hidden')
-        document.getElementById('test-button').classList.add('hidden')
+    document.getElementById('print-text-area').classList.add('hidden')
+    document.getElementById('save-button').classList.add('hidden')
+    document.getElementById('test-button').classList.add('hidden')
 }
 
 const savePrintCode = () => {
@@ -104,7 +80,7 @@ const savePrintCode = () => {
 }
 
 const printTest = () => {
-
+    document.getElementById('current-serial-number').innerHTML = ''
     const printerIpAddess = document.getElementById('ipAddress').value
     if (printerIpAddess === "" || !validateIpAddress(printerIpAddess)){
         document.getElementById('ipAddress-error').innerHTML = "** Printer IP Address is not valid **"
@@ -113,14 +89,22 @@ const printTest = () => {
         document.getElementById('ipAddress-error').innerHTML = ""
     }
 
+    let newPrintCode = localStorage.getItem("printCode").replace(/FD_SerialNumber_/g, 'QG9TEST001')
+    const printerIpAddress = document.getElementById('ipAddress').value
 
-    sendPrintRequest('QG9TEST0001')
+    sendRequest(`printCode=${newPrintCode}&ipAddress=${printerIpAddress}`, handlePrintRequestReturn, '/sendToPrinter')
 }
 
 document.getElementById('request-serial-number-button').addEventListener('click', handleRequest)
 document.getElementById('view-button').addEventListener('click', showPrintCode)
 document.getElementById('save-button').addEventListener('click', savePrintCode)
 document.getElementById('test-button').addEventListener('click', printTest)
+document.querySelector('.cell-id-input').addEventListener('click', () => {
+    document.getElementById('cell-id').focus()
+})
+document.querySelector('.ipAddress-input').addEventListener('click', () => {
+    document.getElementById('ipAddress').focus()
+})
 
 let PrintCode = `^XA^PQ1^PRA^LH000,000
 ^FO030,140^BXN,5,200,,,6,,^FD_SerialNumber_^FS
@@ -133,3 +117,15 @@ if (window.localStorage.getItem("printCode") === null){
 }
 
 document.getElementById('print-text-area').innerHTML = localStorage.getItem('printCode')
+
+document.getElementById('cell-id').addEventListener('keydown', () => {
+    if (event.keyCode === 13){ event.preventDefault(); document.getElementById('ipAddress').focus() }
+})
+document.getElementById('ipAddress').addEventListener('keydown', () => {
+    if (event.keyCode === 13 || event.keyCode === 9){ event.preventDefault(); document.getElementById('request-serial-number-button').focus() }
+})
+document.getElementById('request-serial-number-button').addEventListener('keydown', () => {
+    if (event.keyCode === 9){ event.preventDefault(); document.getElementById('cell-id').focus() }
+})
+
+document.getElementById('cell-id').focus()
