@@ -18,39 +18,6 @@ type settings struct {
 	IPAddress string
 }
 
-type bomData struct {
-	accessID    int
-	modelNumber string
-}
-
-type setupResponse struct {
-	components [6]bomData
-	ack        int
-	errorCode  int
-	quantity   int
-}
-
-type setupSendData struct {
-	Command     string
-	CellID      string
-	RequestCode int
-	ModelNumber string
-	OpNumber    string
-	AccessID    int
-	Component   string
-}
-
-type loginData struct {
-	Command     string
-	CellID      string
-	RequestCode int
-	OperatorID  string
-}
-
-type serialRequest struct {
-	Serial string
-}
-
 //PageSettings is data to pass to webpages
 type PageSettings struct {
 	Title      string
