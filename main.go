@@ -7,7 +7,6 @@ import (
 	"io/ioutil"
 	"net"
 	"net/http"
-	"strconv"
 	"strings"
 	"time"
 )
@@ -26,7 +25,7 @@ type PageSettings struct {
 }
 
 var mySettings settings
-var versionString = "1.1.2"
+var versionString = "1.2.2"
 
 func init() {
 	tmp = template.Must(template.ParseGlob("templates/*"))
@@ -70,6 +69,8 @@ func main() {
 
 	http.HandleFunc("/finalPrintPost", handleFinalPrintPost)
 
+	http.HandleFunc("/fmSheetCreate", fmSheetCreate)
+
 	fmt.Println("Version: " + versionString)
 	fmt.Println("Using OES Server: " + mySettings.IPAddress)
 	fmt.Println("Listening on port 8000.....")
@@ -105,125 +106,6 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 func handleHelp(w http.ResponseWriter, r *http.Request) {
 	pageSetting := PageSettings{Title: "Help", Javascript: "help.js", CSS: "help.css"}
 	tmp.ExecuteTemplate(w, "help.gohtml", pageSetting)
-}
-
-func setup(w http.ResponseWriter, r *http.Request) {
-	pageSetting := PageSettings{Title: "Setup", Javascript: "setup.js", CSS: "setup.css"}
-	tmp.ExecuteTemplate(w, "setup.gohtml", pageSetting)
-}
-
-func login(w http.ResponseWriter, r *http.Request) {
-	pageSetting := PageSettings{Title: "Login", Javascript: "login.js", CSS: "login.css"}
-	tmp.ExecuteTemplate(w, "login.gohtml", pageSetting)
-}
-
-func loginRequest(w http.ResponseWriter, r *http.Request) {
-	defer r.Body.Close()
-	bodyByte, err := ioutil.ReadAll(r.Body)
-	if err != nil {
-		panic(err)
-	}
-
-	bodyString := string(bodyByte)
-	resultsString := strings.Split(bodyString, "&")
-	fmt.Println(resultsString)
-	var results = make(map[string]string)
-	for _, val := range resultsString {
-		element := strings.Split(val, "=")
-		key := element[0]
-		results[key] = element[1]
-	}
-	reqCode, err := strconv.Atoi(results["request"])
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	sd := loginData{"LOGIN", results["cellId"], reqCode, results["operatorId"]}
-
-	jData, err := json.Marshal(sd)
-
-	data := sendSetupTransaction1(jData)
-
-	w.Header().Set("Content-Type", "application/json")
-	w.Write([]byte(data))
-}
-
-func setupRequest(w http.ResponseWriter, r *http.Request) {
-	defer r.Body.Close()
-	bodyByte, err := ioutil.ReadAll(r.Body)
-	if err != nil {
-		panic(err)
-	}
-	bodyString := string(bodyByte)
-	resultsString := strings.Split(bodyString, "&")
-	var results = make(map[string]string)
-
-	for _, val := range resultsString {
-		element := strings.Split(val, "=")
-		key := element[0]
-		results[key] = element[1]
-	}
-	if results["request"] == "" {
-		results["request"] = "0"
-	}
-	reqCode, err := strconv.Atoi(results["request"])
-	if err != nil {
-		fmt.Println(err)
-	}
-	if results["accessId"] == "" {
-		results["accessId"] = "0"
-	}
-	accessID, err := strconv.Atoi(results["accessId"])
-	if err != nil {
-		fmt.Println(err)
-	}
-	sd := setupSendData{"SETUP", results["cellId"], reqCode, results["modelNumber"], results["opNumber"], accessID, results["component"]}
-	jData, err := json.Marshal(sd)
-
-	data := sendSetupTransaction1(jData)
-
-	w.Header().Set("Content-Type", "application/json")
-	w.Write([]byte(data))
-
-}
-
-func handleSerialRequest(w http.ResponseWriter, r *http.Request) {
-	pageSetting := PageSettings{Title: "Interim Label", Javascript: "serialRequest.js", CSS: "serialRequest.css"}
-	tmp.ExecuteTemplate(w, "serialRequest.gohtml", pageSetting)
-}
-
-func handleSerialRequestPost(w http.ResponseWriter, r *http.Request) {
-	defer r.Body.Close()
-	bodyByte, err := ioutil.ReadAll(r.Body)
-	if err != nil {
-		panic(err)
-	}
-
-	bodyString := string(bodyByte)
-	resultsString := strings.Split(bodyString, "&")
-	var results = make(map[string]string)
-	for _, val := range resultsString {
-		element := strings.Split(val, "=")
-		key := element[0]
-		results[key] = element[1]
-	}
-	// reqCode, err := strconv.Atoi(results["request"])
-	// if err != nil {
-	// 	fmt.Println(err)
-	// }
-
-	s := "SERIAL," + results["cellId"] + "," + results["request"]
-
-	data := sendSetupTransaction1([]byte(s))
-
-	dArr := strings.Split(data, ",")
-	sr := serialRequest{dArr[1]}
-
-	retData, err := json.Marshal(sr)
-
-	w.Header().Set("Content-Type", "application/json")
-	w.Write([]byte(retData))
-
 }
 
 func handlePrintRequest(w http.ResponseWriter, r *http.Request) {
