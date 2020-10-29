@@ -71,6 +71,8 @@ func main() {
 
 	http.HandleFunc("/fmSheetCreate", fmSheetCreate)
 
+	http.HandleFunc("/getFmSheet", getFmSheet)
+
 	fmt.Println("Version: " + versionString)
 	fmt.Println("Using OES Server: " + mySettings.IPAddress)
 	fmt.Println("Listening on port 8000.....")
