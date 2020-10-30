@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
-
-	// "strconv"
 	"strings"
 )
 
@@ -16,15 +14,34 @@ func fmSheetCreate(w http.ResponseWriter, r *http.Request) {
 
 func getFmSheet(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
-	fmt.Println(r.URL.Query()["id"])
-	keys, ok := r.URL.Query()["key"]
 
-	if !ok || len(keys[0]) < 1 {
-		fmt.Println("Url Param 'key' is missing")
-		return
+	docNumberOK := false
+	opNumberOK := false
+	locationOK := false
+
+	docNumber, ok := r.URL.Query()["docNumber"]
+
+	if ok {
+		docNumberOK = true
+		if docNumberOK {
+			fmt.Println(docNumber)
+		}
+	} else {
+		fmt.Println("no docNumber")
+		opNumber, ok := r.URL.Query()["opNumber"]
+		if ok {
+			opNumberOK = true
+		}
+		location, ok := r.URL.Query()["location"]
+		if ok {
+			locationOK = true
+		}
+
+		if locationOK && opNumberOK {
+			fmt.Println(opNumber[0])
+			fmt.Println(location[0])
+		}
 	}
-
-	fmt.Println(keys)
 
 	bodyByte, err := ioutil.ReadAll(r.Body)
 	if err != nil {
