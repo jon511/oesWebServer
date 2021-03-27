@@ -323,7 +323,21 @@ nav a:hover {
 }
 .half-ellipse4 { border-radius: 0 100% 100% 0 / 50%; }
 
-.svg {
-    transform: scale(.25);
+svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translateX(-50px);
+  transform: scale(.25);
    
+}
+
+#image-3 {
+  opacity: 0.4;
+}
+
+.h-text {
+  font-size: .8rem;
+  font-family: 'Neue Helvetica';
+  
 }
