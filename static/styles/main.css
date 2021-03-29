@@ -1,0 +1,58 @@
+:root {
+    --background: rgba(0, 214, 170, .85);
+  }
+  
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  
+  body {
+      margin: 0;
+      /* background: #222; */
+      font-family: 'Work Sans', sans-serif;
+      font-weight: 400;
+  }
+  
+  .content {
+    height: 200vh;
+    display: grid;
+    place-items: center;
+  }
+
+  .header {
+      background-color: yellow;
+  }
+
+  .nav-toggle-label {
+      padding: 25px;
+      background-color: aliceblue;
+      transform: rotate(90deg);
+  }
+
+.rotated {
+    width: 25px;
+    margin-left: 2em;
+    transform: rotate(90deg);
+}
+
+.rotated button {
+    font-size: 1.5rem;
+    border: none;
+    background: none;
+}
+
+
+img {
+    width: 200px;
+}
+
+.hidden {
+    display: none;
+}
+
+
+/* @media screen and (min-width: 800px){
+    img {
+        width: 300px;
+    }
+} */

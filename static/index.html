@@ -7,15 +7,16 @@
     <!-- <title>{{.Title}}</title> -->
     <!-- <link href="/static/styles/{{.CSS}}" type="text/css" rel="stylesheet"/> -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/styles/style.css">
+    <link rel="stylesheet" href="/static/styles/main.css">
     <script defer src="/static/javascript/common.js" type="text/javascript"></script>
     <script defer src="/static/javascript/{{.Javascript}}" type="text/javascript"></script>
+    <script defer src="/static/javascript/test.js"></script>
 </head>
 <body>
     <header class="header">
-        <img src="/static/images/arc-logo.png" width="300" height="auto" alt="">
-        <input type="checkbox" id="nav-toggle" class="nav-toggle">
-        <nav>
+        <img src="/static/images/arc-logo.png" alt="">
+        <div class="rotated"><button id="hamburger-button">|||</button></div>
+        <nav class="nav">
             <ul>
                 <li><a href="#">Home</a></li>
                 <li><a href="/login">Login</a></li>
@@ -23,9 +24,6 @@
                 <li><a href="#">Label</a></li>
             </ul>
         </nav>
-        <label for="nav-toggle" class="nav-toggle-label">
-            <span></span>
-        </label>
     </header>
     <div id="mainDiv">
         
